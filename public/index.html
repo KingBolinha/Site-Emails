@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fanin Boom | Painel de Recebimento</title>
+    <link rel="stylesheet" href="/styles.css?v=faninboom-v12" />
+  </head>
+  <body>
+    <div class="page-shell"></div>
+    <main class="container">
+      <nav class="top-nav">
+        <div class="brand-lockup">
+          <span class="brand-dot"></span>
+          <span class="brand-name">Fanin Boom</span>
+        </div>
+        <div class="nav-actions">
+          <span class="nav-current">Painel</span>
+          <a href="/inbox" class="nav-link">Abrir caixa</a>
+        </div>
+      </nav>
+
+      <section class="hero hero-main">
+        <div class="hero-copy">
+          <p class="eyebrow">Email Gateway</p>
+          <h1>Receba emails e codigos em um painel com dominio proprio.</h1>
+        </div>
+
+        <div class="hero-panel">
+          <div class="hero-panel-head">
+            <span class="hero-panel-label">Status operacional</span>
+            <span id="hero-health" class="hero-panel-live">carregando</span>
+          </div>
+          <div class="hero-metrics">
+            <div class="metric">
+              <span id="metric-emails">0</span>
+              <small>Caixas ativas</small>
+            </div>
+            <div class="metric">
+              <span id="metric-codes">0</span>
+              <small>Codigos extraidos</small>
+            </div>
+            <div class="metric">
+              <span id="metric-messages">0</span>
+              <small>Mensagens recebidas</small>
+            </div>
+          </div>
+          <div class="hero-checklist">
+            <p>1. Gere o email</p>
+            <p>2. Use esse email onde quiser</p>
+            <p>3. Abra a caixa e acompanhe a chegada</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <section class="card card-form">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">Provisionamento</p>
+              <h2>Novo email de recebimento</h2>
+            </div>
+            <span class="section-chip">dominio fixo</span>
+          </div>
+
+          <form id="generate-form" class="generator-form">
+            <div class="form-grid">
+              <div>
+                <label for="count">Quantidade</label>
+                <input id="count" type="number" min="1" max="50" step="1" value="1" required />
+              </div>
+              <div>
+                <label for="domain">Dominio ativo</label>
+                <input
+                  id="domain"
+                  type="text"
+                  readonly
+                  value="faninboom.store"
+                  autocomplete="off"
+                  data-lpignore="true"
+                />
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="btn btn-primary">Gerar emails</button>
+              <button type="button" id="refresh-btn" class="btn btn-secondary">Atualizar lista</button>
+              <button type="button" id="clear-btn" class="btn btn-danger">Limpar tudo</button>
+            </div>
+          </form>
+          <p id="status" class="status"></p>
+        </section>
+
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Caixas</p>
+            <h2>Emails gerados</h2>
+          </div>
+          <span class="section-chip">copiar e monitorar</span>
+        </div>
+        <div id="mailboxes" class="mailboxes-grid"></div>
+      </section>
+    </main>
+
+    <div id="confirm-clear-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-clear-title">
+      <section class="modal-card">
+        <p class="modal-kicker">Acao permanente</p>
+        <h3 id="confirm-clear-title">Confirmar exclusao total</h3>
+        <p class="modal-text">
+          Esta acao apaga <strong>todos</strong> os emails gerados, codigos e mensagens recebidas.
+          Deseja continuar?
+        </p>
+        <div class="modal-actions">
+          <button type="button" id="confirm-clear-cancel" class="btn btn-secondary">Cancelar</button>
+          <button type="button" id="confirm-clear-submit" class="btn btn-danger">Sim, excluir tudo</button>
+        </div>
+      </section>
+    </div>
+
+    <script src="/script.js?v=faninboom-v13"></script>
+  </body>
+</html>

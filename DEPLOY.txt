@@ -1,0 +1,26 @@
+DEPLOY (faninboom.store)
+========================
+
+1. Copie toda a pasta do projeto para o servidor.
+
+2. Pare o processo antigo do Node ou PM2.
+
+3. Na pasta do projeto, rode `npm install` se necessario.
+
+4. Inicie com:
+   `npm start`
+   ou
+   `pm2 start server.js --name faninboom`
+
+5. Teste no navegador:
+   https://faninboom.store/api/health
+
+6. O retorno precisa mostrar:
+   "domain":"faninboom.store"
+   "apiBuild":"faninboom-v7-pro"
+
+7. Se o site ainda mostrar dados antigos, o processo em execucao nao foi reiniciado com este codigo.
+
+Headers uteis:
+   X-Email-Domain: faninboom.store
+   X-API-Build: faninboom-v7-pro

@@ -1,0 +1,18 @@
+node_modules/
+
+# Runtime/local data
+mailboxes.json
+*.log
+
+# Local environment and tunnel configuration
+.env
+.env.*
+config.yml
+
+# Accidental/local files
+node
+
+# OS/editor files
+Thumbs.db
+.DS_Store
+.vscode/

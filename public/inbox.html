@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fanin Boom | Inbox</title>
+    <link rel="stylesheet" href="/styles.css?v=faninboom-v12" />
+  </head>
+  <body>
+    <div class="page-shell"></div>
+    <main class="container">
+      <nav class="top-nav">
+        <div class="brand-lockup">
+          <span class="brand-dot"></span>
+          <span class="brand-name">Fanin Boom</span>
+        </div>
+        <div class="nav-actions">
+          <a href="/" class="nav-link">Painel</a>
+          <span class="nav-current">Inbox</span>
+        </div>
+      </nav>
+
+      <section class="hero hero-compact">
+        <div class="hero-copy">
+          <p class="eyebrow">Mailbox Viewer</p>
+          <h1>Abrir caixa de recebimento</h1>
+          <p class="subtitle hero-text">
+            Consulte qualquer endereco <code class="inline-code">@faninboom.store</code> gerado no painel principal
+            para visualizar codigos, remetentes e o conteudo completo da mensagem.
+          </p>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Consulta</p>
+            <h2>Qual caixa voce quer abrir?</h2>
+          </div>
+        </div>
+        <form id="inbox-form" class="inbox-form">
+          <label for="inbox-email">Endereco de email</label>
+          <div class="inbox-row">
+            <input
+              id="inbox-email"
+              type="email"
+              autocomplete="email"
+              placeholder="usuario@faninboom.store"
+              required
+            />
+            <button type="submit" class="btn btn-primary">Abrir caixa</button>
+          </div>
+          <div class="actions inbox-actions">
+            <button type="button" id="inbox-refresh" class="btn btn-secondary">Atualizar</button>
+            <button type="button" id="inbox-copy" class="btn btn-secondary">Copiar email</button>
+          </div>
+        </form>
+        <p id="inbox-status" class="status"></p>
+      </section>
+
+      <section id="inbox-panel" class="card inbox-panel hidden">
+        <div class="inbox-panel-head">
+          <div>
+            <p class="section-kicker">Caixa aberta</p>
+            <h2>Conteudo recebido</h2>
+          </div>
+          <span id="inbox-address" class="email-badge"></span>
+        </div>
+
+        <div class="inbox-grid">
+          <div class="inbox-col">
+            <h3 class="inbox-subtitle">Codigos detectados</h3>
+            <ul id="inbox-codes" class="codes-pills"></ul>
+          </div>
+          <div class="inbox-col inbox-col-wide">
+            <h3 class="inbox-subtitle">Mensagens</h3>
+            <div id="inbox-messages" class="message-cards"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/inbox.js?v=faninboom-v9"></script>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "name": "gerador-emails",
+  "version": "1.0.0",
+  "description": "Gerador de emails aleatorios com API e interface web",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "mailparser": "^3.9.4",
+    "smtp-server": "^3.18.1"
+  }
+}
