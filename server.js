@@ -19,7 +19,7 @@ const ROCKSTAR_FROM_RE =
   /rockstar|socialclub|take2|gtav|gta\s*online|sc-auth/i;
 
 function normalizeForSearch(value) {
-  // Remove acentos para evitar problemas de encoding (verificacao/verificação).
+
   return String(value || "")
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
@@ -84,10 +84,7 @@ function extractCodeGeneric(blob) {
   return null;
 }
 
-/**
- * Prioriza padroes comuns de email de verificacao (ex.: Rockstar / Social Club).
- * Quando o remetente parece Rockstar, tenta capturar codigo numerico de 6 digitos primeiro.
- */
+
 function extractVerificationCode(subject, text, from) {
   const blob = `${String(subject || "")}\n${String(text || "")}`;
   const fromStr = String(from || "");
@@ -95,19 +92,15 @@ function extractVerificationCode(subject, text, from) {
 
   const blobSearch = normalizeForSearch(blob);
 
-  // Extracao robusta (sem depender de acentos/encoding em regex antigos).
-  // Importante: não capturar tokens depois de "verify" sozinho, senão o assunto "Verify"
-  // vira "YOUR" (ex.: "Verify" + "Your verification code is 123456").
-
-  // 1) Para Rockstar quase sempre é 6 dígitos.
+ 
   const m6 = blobSearch.match(/\b(\d{6})\b/);
   if (m6) return m6[1];
 
-  // Alguns emails usam "123-456" ou "123 456"
+  
   const m6Split = blobSearch.match(/\b(\d{3})[\s-](\d{3})\b/);
   if (m6Split) return `${m6Split[1]}${m6Split[2]}`;
 
-  // 2) Tokens "code: ABC123" ou "verification code is 123456"
+
   const labelRe =
     /(?:verification\s+code|codigo\s+de\s+verificacao|code|codigo|pin|token)\s*(?:is|:)?\s*([a-z0-9]{4,10})\b/i;
   const labeled = blobSearch.match(labelRe);
@@ -116,7 +109,7 @@ function extractVerificationCode(subject, text, from) {
     return /[a-z]/i.test(token) ? token.toUpperCase() : token;
   }
 
-  // 3) Fallback: para Rockstar, aceita 4-8 dígitos se não achou 6.
+  
   if (looksRockstar) {
     const mDigits = blobSearch.match(/\b(\d{4,8})\b/);
     if (mDigits) return mDigits[1];
@@ -208,7 +201,7 @@ function pickOwnDomainRecipient({ parsed, rawFallbackTo }) {
     }
   }
 
-  // Alguns encaminhamentos preservam o destino real nesses headers.
+ 
   const headers = parsed?.headers;
   if (headers && typeof headers.get === "function") {
     const candidates = [
@@ -235,7 +228,7 @@ function pickOwnDomainRecipient({ parsed, rawFallbackTo }) {
 
   const fallbackRaw = String(rawFallbackTo || "").trim();
   if (fallbackRaw) {
-    // Pode vir como "Nome <usuario@faninboom.store>"
+   
     const m = fallbackRaw.match(/[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i);
     const addr = String(m ? m[0] : fallbackRaw).trim().toLowerCase();
     if (addr.endsWith(wantedSuffix)) {
@@ -250,7 +243,7 @@ function findOwnDomainEmailInRawText(rawText) {
   const suffix = `@${OWN_DOMAIN}`;
   const escapedDomain = OWN_DOMAIN.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-  // Cloudflare/Gmail podem deixar o endereco em quoted-printable (ex.: =40 =2E).
+  
   const normalized = String(rawText || "")
     .replace(/=40/gi, "@")
     .replace(/=2e/gi, ".")
@@ -364,9 +357,7 @@ function sendMailgunEmail({ to, subject, text, html, from }) {
   });
 }
 
-/**
- * Processa email recebido via HTTP POST, Gmail forward ou servidor SMTP (Rockstar, etc.).
- * @param {"api"|"smtp"|"gmail"} source
+
  */
 function processInboundEmail({ to, from, subject, text }, source = "api") {
   to = String(to || "").trim().toLowerCase();
