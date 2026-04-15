@@ -8,13 +8,6 @@ function stripHtml(html) {
     .trim();
 }
 
-/**
- * Servidor SMTP de entrada: recebe email real quando o MX aponta para esta maquina.
- * @param {object} opts
- * @param {number} opts.port - geralmente 25 (MX). No Windows pode precisar admin ou usar 2525 + redirecionamento.
- * @param {string} opts.ownDomain - ex: faninboom.store
- * @param {function} opts.onIncoming - async ({ to, from, subject, text }) => { ok, error? }
- */
 function startSmtpInbound({ port, ownDomain, onIncoming }) {
   const server = new SMTPServer({
     name: "faninboom-inbound",

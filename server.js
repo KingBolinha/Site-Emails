@@ -92,14 +92,11 @@ function extractVerificationCode(subject, text, from) {
 
   const blobSearch = normalizeForSearch(blob);
 
- 
   const m6 = blobSearch.match(/\b(\d{6})\b/);
   if (m6) return m6[1];
 
-  
   const m6Split = blobSearch.match(/\b(\d{3})[\s-](\d{3})\b/);
   if (m6Split) return `${m6Split[1]}${m6Split[2]}`;
-
 
   const labelRe =
     /(?:verification\s+code|codigo\s+de\s+verificacao|code|codigo|pin|token)\s*(?:is|:)?\s*([a-z0-9]{4,10})\b/i;
@@ -117,7 +114,7 @@ function extractVerificationCode(subject, text, from) {
 
   if (looksRockstar) {
     const rockstarPatterns = [
-      /(?:verification|verify|verifica(?:c|ç)(?:a|ã)o|code|codigo|c(?:o|ó)digo|pin|token)[\s:]*([A-Z0-9]{4,10})/i,
+      /(?:verification|verify|verificacao|code|codigo|pin|token)[\s:]*([A-Z0-9]{4,10})/i,
       /\b(\d{6})\b/,
       /\b(\d{4,8})\b/
     ];
@@ -130,7 +127,7 @@ function extractVerificationCode(subject, text, from) {
   }
 
   const genericPatterns = [
-    /(?:verification|verify|code|codigo|c(?:o|ó)digo|pin)[\s:]*([A-Z0-9]{4,10})/i,
+    /(?:verification|verify|code|codigo|pin)[\s:]*([A-Z0-9]{4,10})/i,
     /\b(\d{6})\b/,
     /\b(\d{4,8})\b/
   ];
@@ -284,7 +281,6 @@ async function parseRawEmail(raw, encoding = "base64") {
     encoding === "utf8" ? Buffer.from(rawStr, "utf8") : Buffer.from(rawStr, "base64");
   const parsed = await simpleParser(buffer);
 
-  // Melhor esforco: a maioria dos encaminhamentos e ASCII/UTF-8.
   const rawText = buffer.toString("utf8");
   return { parsed, rawText };
 }
@@ -358,7 +354,6 @@ function sendMailgunEmail({ to, subject, text, html, from }) {
 }
 
 
- */
 function processInboundEmail({ to, from, subject, text }, source = "api") {
   to = String(to || "").trim().toLowerCase();
   from = String(from || "unknown@unknown").trim();
@@ -398,7 +393,7 @@ function processInboundEmail({ to, from, subject, text }, source = "api") {
     from,
     to,
     subject: subject || "(sem assunto)",
-    text: text || "(vazio — veja assunto)",
+    text: text || "(vazio - veja assunto)",
     parsedCode,
     rockstar,
     source,
@@ -453,8 +448,6 @@ app.post("/api/emails/generate", (req, res) => {
     count = 50;
   }
 
-  /* Nao validamos body.domain: clientes antigos ou URLs completas nao podem bloquear.
-     Emails sao sempre gerados somente em @faninboom.store */
   const domain = OWN_DOMAIN;
   const emails = [];
 
@@ -669,8 +662,6 @@ app.post("/api/inbound/email", (req, res) => {
   });
 });
 
-// Endpoint simples para Cloudflare Email Worker enviar payload direto:
-// { to, from, subject, text }
 app.post("/api/inbound/worker", (req, res) => {
   const providedApiKey = req.headers["x-api-key"];
   if (INBOUND_API_KEY && providedApiKey !== INBOUND_API_KEY) {
@@ -698,7 +689,6 @@ app.post("/api/inbound/worker", (req, res) => {
   });
 });
 
-// Integra Gmail/Email Routing sem abrir porta: Apps Script envia o raw e o servidor parseia.
 app.post("/api/inbound/gmail", async (req, res) => {
   const debugInbound = process.env.DEBUG_INBOUND === "true";
   const providedApiKey = req.headers["x-api-key"];
@@ -716,8 +706,6 @@ app.post("/api/inbound/gmail", async (req, res) => {
   const directSubject = String(req.body?.subject || "").trim();
   const directText = String(req.body?.text || "").trim();
 
-  // Fallback importante: se o Worker mandar payload direto ao inves de raw,
-  // ainda salvamos a mensagem no painel.
   if (!raw && rawTo && (directText || directSubject)) {
     const directResult = processInboundEmail(
       {
@@ -828,7 +816,7 @@ if (ENABLE_SMTP_INBOUND) {
   } catch (err) {
     console.error("[SMTP] Nao foi possivel iniciar:", err.message);
     console.error(
-      "      Dica Windows: porta 25 exige admin — tente SMTP_PORT=2525 e redirecione a porta no roteador, ou desative com ENABLE_SMTP_INBOUND=false"
+      "      Dica Windows: porta 25 exige admin - tente SMTP_PORT=2525 e redirecione a porta no roteador, ou desative com ENABLE_SMTP_INBOUND=false"
     );
   }
 }

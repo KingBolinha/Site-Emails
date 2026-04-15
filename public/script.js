@@ -294,7 +294,6 @@ clearBtn.addEventListener("click", onClearAll);
 fetchHealth();
 fetchMailboxes();
 
-// Auto refresh para aparecer "quase instantaneo" quando o webhook salvar novas mensagens/codigos.
 setInterval(() => {
   if (document.visibilityState !== "visible") {
     return;

@@ -8,8 +8,6 @@ export default {
     const from = String(message.from || "");
     const to = String(message.to || "");
 
-    // Modo mais confiavel: envia payload direto.
-    // O backend tambem aceita raw, mas esse formato evita falhas de parse no Worker.
     let text = "";
     try {
       text = await new Response(message.raw).text();
@@ -35,7 +33,6 @@ export default {
       const body = await resp.text().catch(() => "");
       console.log("webhook fail", resp.status, body);
 
-      // Backup opcional
       if (env.FORWARD_TO) {
         await message.forward(env.FORWARD_TO);
       }

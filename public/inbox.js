@@ -48,7 +48,6 @@ async function fetchHealthDomain() {
       inboxEmailInput.placeholder = `usuario@${payload.domain}`;
     }
   } catch (_e) {
-    /* ignore */
   }
 }
 
@@ -194,7 +193,6 @@ function initFromQuery() {
 fetchHealthDomain();
 initFromQuery();
 
-// Auto refresh para o codigo aparecer sem clicar em "Atualizar".
 setInterval(() => {
   if (document.visibilityState !== "visible") {
     return;
